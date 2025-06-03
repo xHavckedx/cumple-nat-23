@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vale de Viaje a Italia</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f7cac9, #fefbd8);
+      overflow-x: hidden;
+    }
+
+    .container {
+      text-align: center;
+      padding: 4rem 1rem;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #b22222;
+      animation: fadeInDown 2s ease;
+    }
+
+    .vale {
+      background: #fff;
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 600px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      animation: zoomIn 1.5s ease;
+    }
+
+    .vale p {
+      font-size: 1.3rem;
+      color: #333;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      margin-top: 2rem;
+      background-color: #ff6347;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background-color: #e5533d;
+    }
+
+    .fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .vale-revelado {
+      background-color: #fff;
+      border: 2px dashed #b22222;
+      border-radius: 15px;
+      padding: 2rem;
+      max-width: 500px;
+      animation: fadeInUp 1.5s ease forwards;
+      text-align: center;
+      position: relative;
+    }
+
+    .vale-revelado h2 {
+      color: #b22222;
+    }
+
+    .vale-revelado p {
+      color: #555;
+      font-size: 1.2rem;
+    }
+
+    .vale-revelado .nota {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 1rem;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>¡Sorpresa, Nathaly!</h1>
+    <div class="vale">
+      <p>Este es tu regalo de cumpleaños, espero que te guste</p>
+      <p>Está seleccionado de la forma mas cuidadosa posible. Que lo disfrutes...💕</p>
+      <button class="btn" onclick="mostrarConfetiYVale()">¡Abrir Vale!</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <div class="vale-revelado" id="valeRevelado">
+      <h2>Vale de Viaje a Italia 🇮🇹</h2>
+      <p>Disfruta de la historia, la comida, el arte y los paisajes de una de los paises más bellos del mundo.</p>
+      <p><em>Con todo el cariño del mundo,</em><br><strong>Att: Leo</strong></p>
+      <p class="nota">* El destino es intercambiable</p>
+    </div>
+  </div>
+
+  <canvas class="fireworks" id="canvas"></canvas>
+
+  <script>
+    function mostrarConfetiYVale() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let particles = [];
+
+      for (let i = 0; i < 150; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          dx: (Math.random() - 0.5) * 10,
+          dy: (Math.random() - 0.5) * 10,
+          radius: Math.random() * 4 + 1,
+          color: `hsl(${Math.random() * 360}, 100%, 50%)`
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+
+          p.x += p.dx;
+          p.y += p.dy;
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+
+      // Mostrar el fondo oscuro y el vale
+      document.getElementById('overlay').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
